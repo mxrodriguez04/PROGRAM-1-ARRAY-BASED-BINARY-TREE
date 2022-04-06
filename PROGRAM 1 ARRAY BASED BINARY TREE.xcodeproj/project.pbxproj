@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5DD01F9E27FD68F9007DEA2F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DD01F9D27FD68F9007DEA2F /* main.cpp */; };
 		5DD01FAC27FD6A87007DEA2F /* ComputerScientist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DD01FA627FD6A87007DEA2F /* ComputerScientist.cpp */; };
-		5DD01FAD27FD6A87007DEA2F /* BSTStartProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DD01FA827FD6A87007DEA2F /* BSTStartProject.cpp */; };
+		5DD01FB227FD6D54007DEA2F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DD01FB027FD6D54007DEA2F /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,15 +25,14 @@
 
 /* Begin PBXFileReference section */
 		5DD01F9A27FD68F9007DEA2F /* PROGRAM 1 ARRAY BASED BINARY TREE */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "PROGRAM 1 ARRAY BASED BINARY TREE"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DD01F9D27FD68F9007DEA2F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		5DD01FA427FD6A67007DEA2F /* csListSmall.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = csListSmall.txt; sourceTree = "<group>"; };
 		5DD01FA527FD6A72007DEA2F /* csListMed.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = csListMed.txt; sourceTree = "<group>"; };
 		5DD01FA627FD6A87007DEA2F /* ComputerScientist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComputerScientist.cpp; sourceTree = "<group>"; };
 		5DD01FA727FD6A87007DEA2F /* BSTInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTInterface.h; sourceTree = "<group>"; };
-		5DD01FA827FD6A87007DEA2F /* BSTStartProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BSTStartProject.cpp; sourceTree = "<group>"; };
 		5DD01FA927FD6A87007DEA2F /* ComputerScientist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComputerScientist.h; sourceTree = "<group>"; };
 		5DD01FAB27FD6A87007DEA2F /* BSTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTree.h; sourceTree = "<group>"; };
 		5DD01FAE27FD6AA2007DEA2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text; name = Base; path = Base.lproj/csList.txt; sourceTree = "<group>"; };
+		5DD01FB027FD6D54007DEA2F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,15 +65,14 @@
 		5DD01F9C27FD68F9007DEA2F /* PROGRAM 1 ARRAY BASED BINARY TREE */ = {
 			isa = PBXGroup;
 			children = (
-				5DD01FA527FD6A72007DEA2F /* csListMed.txt */,
 				5DD01FA727FD6A87007DEA2F /* BSTInterface.h */,
 				5DD01FAB27FD6A87007DEA2F /* BSTree.h */,
-				5DD01FA827FD6A87007DEA2F /* BSTStartProject.cpp */,
+				5DD01FB027FD6D54007DEA2F /* main.cpp */,
 				5DD01FA627FD6A87007DEA2F /* ComputerScientist.cpp */,
 				5DD01FA927FD6A87007DEA2F /* ComputerScientist.h */,
 				5DD01FAF27FD6AA2007DEA2F /* csList.txt */,
-				5DD01F9D27FD68F9007DEA2F /* main.cpp */,
 				5DD01FA427FD6A67007DEA2F /* csListSmall.txt */,
+				5DD01FA527FD6A72007DEA2F /* csListMed.txt */,
 			);
 			path = "PROGRAM 1 ARRAY BASED BINARY TREE";
 			sourceTree = "<group>";
@@ -137,9 +134,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DD01FAD27FD6A87007DEA2F /* BSTStartProject.cpp in Sources */,
-				5DD01F9E27FD68F9007DEA2F /* main.cpp in Sources */,
 				5DD01FAC27FD6A87007DEA2F /* ComputerScientist.cpp in Sources */,
+				5DD01FB227FD6D54007DEA2F /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

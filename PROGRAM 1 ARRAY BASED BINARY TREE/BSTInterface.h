@@ -2,6 +2,7 @@
 #include <iostream>
 #include <ostream>
 
+using namespace std;
 
 template <typename KeyComparable , typename Value > 
 class BSTInterface
