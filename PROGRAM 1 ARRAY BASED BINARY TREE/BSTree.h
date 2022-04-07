@@ -42,13 +42,23 @@ private:
 	*/
 	void printTree(int index, std::ostream & out) const
 	{
-		
+        //DEBUG
+        cout << "INSIDE PRINTTREE\n\n";
+        
+        if(/*index < size &&*/ root[index] != nullptr){
+            printTree(index * 2, out);
+            out << *(root[index]->value) << endl;
+            printTree(index * 2 + 1, out);
+        }
 	}
 	
 public:
 	BinarySearchTree()
 	{
 		// add needed code
+        for (int index = 0; index < size; ++index){  //FIXME
+            root[index] = nullptr;
+        }
 	}
 	
 	~BinarySearchTree()
@@ -128,7 +138,22 @@ public:
 	*/
 	bool insert( Value value,  KeyComparable key)
 	{
-		
+        //DEBUG
+        cout << "\nINSIDE BSTREE INSERT" << endl;
+        cout << *value << endl;
+        
+        int index = 1;
+        
+        if (root[index] == nullptr){
+            root[index] = new Pair (key, value);
+            this->count++;
+            return true;
+            //FIXME: ADD IN COUNT
+        }
+        else
+        {
+            return false;
+        }
 		return false;
 	}
 
