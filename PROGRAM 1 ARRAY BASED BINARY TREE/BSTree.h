@@ -56,7 +56,7 @@ public:
 	BinarySearchTree()
 	{
 		// add needed code
-        for (int index = 0; index < size; ++index){  //FIXME
+        for (int index = 0; index < size; ++index){  //FIXME: Unsure
             root[index] = nullptr;
         }
 	}
@@ -118,7 +118,7 @@ public:
 	*/
 	void printTree(std::ostream & out = cout) const
 	{
-		printTree(0 , out);
+		printTree(1 , out);
 
 	}
 
@@ -142,16 +142,30 @@ public:
         cout << "\nINSIDE BSTREE INSERT" << endl;
         cout << *value << endl;
         
+        //Index value starting at root
         int index = 1;
         
+        //Insert node into root if tree is empty
         if (root[index] == nullptr){
             root[index] = new Pair (key, value);
             this->count++;
             return true;
-            //FIXME: ADD IN COUNT
         }
-        else
-        {
+        //If the tree is not empty do the following
+        else{
+            while (root[index] != nullptr){
+                if (key < root[index]->key){
+                    //DEBUG
+                    cout << "NODE WAS FULL MOVING DOWN LEFT CHILD\n\n";
+                    
+                    insert(value, key);
+                }
+                else if{
+                    ;
+                    
+                }
+            }
+            
             return false;
         }
 		return false;
@@ -166,11 +180,11 @@ public:
 	}
 
 	int getSize() {
-		return 0;
+		return this->size;
 	}
 
 	int getCount() {
-		return 0;
+		return this->count;
 	}
 
 };
