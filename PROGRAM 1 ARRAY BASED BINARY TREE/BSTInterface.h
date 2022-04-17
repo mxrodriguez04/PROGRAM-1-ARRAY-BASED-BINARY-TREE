@@ -25,8 +25,7 @@ class BSTInterface
 	virtual void printTree(std::ostream & out = cout) const = 0;		
 	virtual void makeEmpty() = 0;
 	virtual bool insert(Value item , KeyComparable key) = 0;
-	virtual void remove(const KeyComparable & key) = 0;
-		
+    virtual void remove(const KeyComparable & key) = 0;
 		
 		
  
