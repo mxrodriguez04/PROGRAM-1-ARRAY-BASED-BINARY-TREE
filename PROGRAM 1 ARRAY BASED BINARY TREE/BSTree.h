@@ -84,7 +84,7 @@ private:
     
     //Helper recursive function to move array
     void shiftTree(int origin, int moveVal){
-        
+        /*
         root[origin - moveVal] = root[origin];
         root[origin] = nullptr;
         if (root[origin * 2] != nullptr){
@@ -93,6 +93,7 @@ private:
         if (root[origin * 2 + 1] != nullptr){
             shiftTree(origin * 2 + 1, moveVal);
         }
+         */
         
         // ********************************************
         // ********************************************
@@ -197,19 +198,19 @@ private:
         // ********************************************
         // ********************************************
         
-        /*
-        if(index < size && root[index] != nullptr){
+        
+        if(origin < size && root[origin] != nullptr){
             
-            shiftTree(index * 2, moveVal * 2);
-            root[index - moveVal] = root[index];
-            root[index] = nullptr;
-            shiftTree(index * 2 + 1, moveVal * 2);
+            shiftTree(origin * 2, moveVal * 2);
+            root[origin - moveVal] = root[origin];
+            root[origin] = nullptr;
+            shiftTree(origin * 2 + 1, moveVal * 2);
            
             //root[index] = nullptr;
             
             //root[index] = nullptr;
         }
-        // */
+        
         
     }
     //Helper function to grow array when not enough space
@@ -399,12 +400,93 @@ public:
         
         //If the key is not in the tree display message and exit
         if(key == 0){
+            cout << "KEY: " << key << endl;
             cout << "\nKey was not found. Exiting Remove Function\n";
         }
+        
+        //DEBUG
+        //cout << "\n\nPRINTING ARRAY BEFORE REMOVE\n\n";
+        //printArray();
+        //cout << "INDEX: " << index << endl;
+        
         else{
-            //Case No Children
+            //Case: No Children
             if(root[index * 2] == nullptr && root[index * 2 + 1] == nullptr){
+                delete root[index];
                 root[index] = nullptr;
+                //this->count--;
+                
+                //DEBUG
+                
+                cout << "\n\nPRINTING ARRAY AFTER REMOVE CASE NO CHILDREN\n\n";
+                printArray();
+            }
+            
+            //Case: Two Children
+            else if(root[index * 2] != nullptr && root[index * 2 + 1] != nullptr){
+                int next; //successor node
+                
+                //find min of right subtree
+                next = index * 2 + 1;
+                while(root[next * 2] != nullptr){
+                    next = next * 2;
+                }
+                
+                //if no subtree off of next
+                if(root[next * 2 + 1] == nullptr || next >= size){
+                    delete root[index];
+                    root[index] = root[next];
+                    root[next] = nullptr;
+                }
+                
+                //if right subtree of of next
+                else{
+                    //Save pointer to pair object
+                    Pair *saver = root[next];
+                    
+                    //remove next to shift tree
+                    remove(root[next]->key);
+                    
+                    //set original node equal to next
+                    root[index] = saver;
+                    
+                    //delete node at next if nothing took its place
+                    if(root[next] == saver){
+                        //delete saver;
+                        root[next] = nullptr;
+                    }
+                }
+            }
+            
+            //Case One Child
+            else{
+                //Left Subtree
+                if(root[index * 2] != nullptr){
+                    //Save pointer to pair object
+                    Pair *saver = root[index];
+                    
+                    //recursively move tree
+                    shiftTree(index * 2, index * 2 - index);
+                    
+                    //if nothing has taken the place delete node
+                    if(root[index] == saver){
+                        root[index] = nullptr;
+                    }
+                }
+                //Right subtree
+                else{
+                    //Save pointer to pair object
+                    Pair *saver = root[index];
+                    
+                    //recursively move tree
+                    shiftTree(index * 2 + 1, (index * 2 + 1) - index);
+                    
+                    //if nothing has taken the place delete node
+                    if(root[index] == saver){
+                        root[index] = nullptr;
+                    }
+                }
+            }
         }
         
         // ********************************************
@@ -581,6 +663,4 @@ public:
 	int getCount() {
 		return this->count;
 	}
-    
-
 };
