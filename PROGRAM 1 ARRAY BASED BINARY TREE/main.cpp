@@ -1,5 +1,9 @@
 // BSTStartProject.cpp : Defines the entry point for the console application.
-//
+//Author: Manuel Rodriguez
+//Assignment: P1 Binary Search Tree
+//Description: This program is meant to take text files and insert the data
+//into an array based binary search tree. The program then provides functions
+//to manipulate the data
 
 
 #include "BSTree.h"
@@ -52,18 +56,15 @@ int main()
     {
         tree2.insert(list[i], list[i]->getID());
     }
-
+    
     cout << "\n\nPRINTING TREE:\n";
     tree2.printTree();
     cout << "Tree2 count: " << tree2.getCount() << endl;
     cout << "Tree2 size: " << tree2.getSize() << endl << endl;
-    
-    //DEBUG
-    cout << "\nTESTING FINDMIN() " << endl;
-    cout << "RESULT: " << tree2.findMin();
-
+   
     //DEBUG
     cout << "\n\nNOW RUNNING REMOVE\n";
+    
     for (int i = 101; i <= 110; ++i) {        // for turn-in uncomment these lines
         tree2.remove(i);
     }

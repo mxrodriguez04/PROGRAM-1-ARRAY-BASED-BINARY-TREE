@@ -45,26 +45,14 @@ private:
         //IN ORDER PRINT
         if(index < size && root[index] != nullptr){
             printTree(index * 2, out);
-            
-            //DEBUG
-            //cout << "\nINDEX: " << index << endl;
             out << *(root[index]->value) << endl;
             printTree(index * 2 + 1, out);
         }
-        /*
-        //POST-ORDER PRINT
-        if(index < size && root[index] != nullptr){
-            
-            printTree(index * 2, out);
-            printTree(index * 2 + 1, out);
-            cout << "\nINDEX: " <<index << endl;
-            out << *(root[index]->value) << endl;
-        }
-         */
+   
 	}
     //DEBUG HELPER FUNCTION
     void printArray() {
-            int pcount = 1;
+        int pcount = 1;
             for (int i = 1; i < size; ++i) {
                 if (root[i] != nullptr) {
                     cout << i << ":" << root[i]->key << ">" << (i > 1 ? root[i / 2]->key : 0) << "  ";
@@ -76,25 +64,74 @@ private:
                 }
             }
         }
+    
     //Helper function to find index where key is stored
     int findIndex(int key){
-        //Finds the index value at which key is stored
         int index = 1;
-        while (root[index * 2] != nullptr && root[(index * 2) + 1] != nullptr && root[index]->key != key){
-            if(root[index]->key > key){
+        while(root[index] != nullptr){
+            if(key < root[index]->key){
                 index = index * 2;
             }
-            else if(root[index]->key < key){
-                index = (index * 2) + 1;
+            else if(key > root[index]->key){
+                index = index * 2 + 1;
+            }
+            else if(key == root[index]->key){
+                return index;
             }
         }
-        return index;
+        return 0;
     }
     
     //Helper recursive function to move array
-    void shiftTree(int index, int moveVal){
-        ///*
+    void shiftTree(int origin, int moveVal){
         
+        root[origin - moveVal] = root[origin];
+        root[origin] = nullptr;
+        if (root[origin * 2] != nullptr){
+            shiftTree(origin * 2, moveVal * 2);
+        }
+        if (root[origin * 2 + 1] != nullptr){
+            shiftTree(origin * 2 + 1, moveVal);
+        }
+        
+        // ********************************************
+        // ********************************************
+        /*
+        root[origin - moveVal] = root[origin];
+        root[origin] = nullptr;
+        shiftTree(origin * 2, moveVal * 2);
+        shiftTree(origin * 2 + 1, moveVal * 2);
+         */
+        
+        // ********************************************
+        // ********************************************
+        /*
+        //if (root[dest] != root[origin]){
+        //    root[dest] = nullptr;
+        //}
+        //DEBUG
+        cout << "ORIGIN: " << origin << endl;
+        cout << "MOVEVAL: " << moveVal << endl;
+        cout << "DIFFERENCE: " << origin - moveVal << endl;
+        
+        
+        //left Subtree
+        if(root[origin * 2] != nullptr){
+            shiftTree(origin,origin * 2, moveVal * 2);
+        }
+        root[origin - moveVal] = root[origin];
+        root[origin] = nullptr;
+        
+        if(root[origin * 2 + 1]){
+            shiftTree(origin,origin * 2 + 1, moveVal * 2);
+        }
+        
+         */
+         
+        // ********************************************
+        // ********************************************
+        /*
+
         //Left Subtree
         if (root[index * 2] != nullptr){
             shiftTree(index * 2, moveVal * 2);
@@ -108,7 +145,57 @@ private:
         if(root[index * 2 + 1] != nullptr){
             shiftTree(index * 2 + 1, moveVal * 2);
         }
-         //*/
+         */
+        
+        // ********************************************
+        // ********************************************
+        /*
+        int next; //
+        //Actions if left subtree
+        if (subTree == 1){
+            next = origin * 2;
+        }
+        //Action if right subtree
+        if(subTree == 2){
+            next = origin * 2 + 1;
+        }
+        moveVal = next - origin;
+        root[next - moveVal] = root[next];
+        root[next] = nullptr;
+        if(root[next * 2] != nullptr){
+            shiftTree(next, 1);
+        }
+        if(root[next * 2 + 1] != nullptr){
+            shiftTree(next, 2);
+        }
+         */
+        
+        // ********************************************
+        // ********************************************
+        
+        /*
+        int next =
+        //Left Subtree
+        if (root[origin * 2] != nullptr){
+            next = origin * 2;
+            root[next - moveVal] = root[next];
+            
+        }
+        //Right Subtree
+        if(root[origin * 2 + 1] != nullptr){
+            next = origin * 2 + 1;
+            root[next - moveVal] = root[next];
+            //root[next] = nullptr;
+            //shiftTree(next, moveVal * 2);
+        }
+        
+        root[ - moveVal] = root[next];
+        root[next] = nullptr;
+        shiftTree(next, moveVal * 2);
+       */
+        
+        // ********************************************
+        // ********************************************
         
         /*
         if(index < size && root[index] != nullptr){
@@ -157,6 +244,8 @@ public:
 	
 	~BinarySearchTree()
 	{
+        makeEmpty();
+        delete [] root;
 		// add needed code
 	}
 
@@ -166,15 +255,10 @@ public:
 	const Value findMin() const
 	{
         int index = 1;
-        while(root[index] != nullptr){
-            if(root[index * 2] != nullptr){
-                index = index * 2;
-            }
-            else{
-                return root[index]->value;
-            }
+        while(root[index * 2] != nullptr){
+            index = index * 2;
         }
-        return root[1]->value;
+        return root[index]->value;
 	}
 
 	/*
@@ -182,16 +266,11 @@ public:
 	*/
 	const Value findMax() const
 	{
-        int index = 1;;
-        while(root[index] != nullptr){
-            if(root[index * 2 + 1] != nullptr){
-                index = index * 2 + 1;
-            }
-            else{
-                return root[index]->value;
-            }
+        int index = 1;
+        while(root[index * 2 + 1] != nullptr){
+            index = index * 2 + 1;
         }
-        return root[1]->value;
+        return root[index]->value;
 	}
 
 	/*
@@ -202,11 +281,19 @@ public:
 	*/
 	bool find(const KeyComparable & key , Value & founditem) const
 	{
-        //DEBUG
-        cout << "\n\n INSIDE FIND FUNCTION\n";
-        
-        
-		
+        int index = 1;
+        while(root[index] != nullptr){
+            if(key < root[index]->key){
+                index = index * 2;
+            }
+            else if(key > root[index]->key){
+                index = index * 2 + 1;
+            }
+            else if(key == root[index]->key){
+                founditem = root[index]->value;
+                return true;
+            }
+        }
 		return false;
 	}
 
@@ -215,6 +302,18 @@ public:
 	*/
 	bool contains(const KeyComparable & key) const
 	{
+        int index = 1;
+        while(root[index] != nullptr){
+            if(key < root[index]->key){
+                index = index * 2;
+            }
+            else if(key > root[index]->key){
+                index = index * 2 + 1;
+            }
+            else if(key == root[index]->key){
+                return true;
+            }
+        }
 		return false;
 	}
 
@@ -222,8 +321,7 @@ public:
 	* Returns true if tree has no nodes
 	*/
 	bool isEmpty() const{
-		// stub code remove
-		return root == nullptr;
+		return root[1] == nullptr;
 	}
 
 	/*
@@ -296,7 +394,133 @@ public:
 
 	void remove(const KeyComparable & key){
         
+        //Index at which key is stored
+        int index = findIndex(key);
         
+        //If the key is not in the tree display message and exit
+        if(key == 0){
+            cout << "\nKey was not found. Exiting Remove Function\n";
+        }
+        else{
+            //Case No Children
+            if(root[index * 2] == nullptr && root[index * 2 + 1] == nullptr){
+                root[index] = nullptr;
+        }
+        
+        // ********************************************
+        // ********************************************
+        
+        /*
+        
+        //Find index of key
+        int index = findIndex(key);
+        
+        //Case: No children
+        if (root[index * 2] == nullptr && root[index * 2 + 1] == nullptr){
+            //FIXME: Dynamic Memory Management?
+            cout << "\n* * * * * * *CASE: ONE CHILD* * * * * * *\n";
+            cout << "INDEX: " << index << endl;
+            cout << "KEY: " << key << endl;
+            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
+            
+            delete root[index];
+            root[index] = nullptr;
+            this->count--;
+            
+            //DEBUG
+            //printArray();
+        }
+        //Case: Two Children
+        else if (root[index * 2] != nullptr && root[index * 2 + 1] != nullptr){
+            
+            //DEBUG
+            cout << "\n^_^_^_^_^_FOUND: CASE TWO CHILDREN_^_^_^_^_^_\n";
+            cout << "INDEX: " << index << endl;
+            cout << "KEY: " << key << endl;
+            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
+            
+            
+            //FIXME: Dynamic Memory Management?
+            //Determine min value of right subtree
+            int successor = index * 2 + 1;
+            while(root[successor * 2] != nullptr){
+                successor = successor * 2;
+            }
+            //If no subtrees
+            if (root[successor * 2 + 1] == nullptr) {
+                root[index] = root[successor];
+                root[successor] = nullptr;
+            }
+            //If right subtree exist
+            else if(root[index * 2 + 1] != nullptr){
+                //Save pointer to the computer scientist object
+                Value *saver = &(root[successor]->value);
+                //Remove the successor
+                remove(root[successor]->key);
+                //Set the node from the original removed node equal to the saved CS object
+                root[index]->value = *saver;
+                root[index]->key = (root[index]->value)->getID();
+                //set the pointer at successor index equal to nullptr if it hasnt changed
+                if (root[successor]->value == *saver){
+                    root[successor] = nullptr;
+                }
+            }
+            printArray();
+            cout << "INDEX: " << index << endl;
+            cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
+            cout << "^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^\n";
+        }
+        //Case: One Child
+        else{
+            //DEBUG
+            cout << "\n~~~~~~~~~FOUND: CASE ONE CHILDREN~~~~~~~~~\n";
+            cout << "INDEX: " << index << endl;
+            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
+            
+            //Left Subtree Child
+            if(root[index * 2] != nullptr){
+                //Save a pointer to CS object
+                Value *saver = &(root[index * 2]->value);
+                //Move child up
+                //root[index] = root[index * 2];
+                //remove the child
+                remove(root[index * 2]->key);
+                root[index]->value = *saver;
+                root[index]->key = (root[index]->value)->getID();
+                //set node equal to nullptr if nothing else tooks its place
+                if (root[index * 2]->value == *saver){
+                    root[index * 2] = nullptr;
+                }
+                
+            }
+            //Right Subtree Child
+            else{
+                //Save a pointer to CS object
+                Value *saver = &(root[index * 2 + 1]->value);
+                //Move child up
+                //root[index] = root[index * 2 + 1];
+                //remove the child
+                remove(root[index * 2]->key);
+                root[index]->value = *saver;
+                root[index]->key = (root[index]->value)->getID();
+                //set node equal to nullptr if nothing else took its place
+                if (root[index * 2 + 1]->value == *saver){
+                    root[index * 2 + 1] = nullptr;
+                }
+            }
+            printArray();
+            cout << "INDEX: " << index << endl;
+            //cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
+            cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+            
+        }
+        
+        */
+        
+        // ********************************************
+        // ********************************************
+        
+        /*
         //Find index value where the key is stored
         int index = findIndex(key);
         
@@ -334,36 +558,6 @@ public:
             cout << "INDEX: " << index << endl;
             cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
             cout << "^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^\n";
-            
-            /*//DEBUG
-            cout << "\n^_^_^_^_^_FOUND: CASE TWO CHILDREN_^_^_^_^_^_\n";
-            cout << "INDEX: " << index << endl;
-            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-        
-            
-            
-            //Find min of right subtree
-            int temp = index * 2 + 1;
-            while(root[temp * 2] != nullptr){
-                temp = temp * 2;
-            }
-            Pair* saver = root[temp];
-            
-            //If remove subtree to min exists run remove code
-            if( root[temp * 2 + 1] != nullptr){
-                remove (root[temp]->key);
-            }
-            root[index] = saver;
-            root[temp] = nullptr;
-            this->count--;
-            
-            cout << "PRINTING TREE" << endl;
-            printTree(index, cout);
-            
-            cout << "INDEX: " << index << endl;
-            cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
-            cout << "^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^\n";
-            */
         }
         //Case: One Child
         else{
@@ -377,261 +571,7 @@ public:
             }
             this->count--;
         }
-    
-        
-        /*
-        //DEBUG
-        cout << "INSIDE REMOVE FUNCTION" << endl;
-        cout << "KEY: " << key << endl << endl;
-        
-        //Find index where key is stored
-        int index = findIndex(key);
-        
-        //DEBUG
-        cout << "\nAFTER CODE FOUND PROPER INDEX" << endl;
-        cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-
-      
-        //Case: No Children
-        if (root[index * 2] == nullptr && root[index * 2 + 1] == nullptr){
-            //DEBUG
-            //cout << "~~~~~~~~~~FOUND: CASE NO CHILDREN~~~~~~~~~~\n";
-            //cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            root[index] = nullptr;
-            this->count--;
-            
-            //DEBUG
-            //cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            //DEBUG
-            //cout << "\nCASE: NO CHILDREN (DELETED)\n";
-            //cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-            //printTree(1, cout);
-        }
-        
-        //Case: Two Children
-        else if(root[index * 2] != nullptr && root[index * 2 + 1] != nullptr){
-            //FIXME: Dynamic memory delete?? (Don't believe its necessary)
-            
-            //DEBUG
-            //cout << "\n^_^_^_^_^_FOUND: CASE TWO CHILDREN_^_^_^_^_^_\n";
-            //cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-        
-            //Find min value of right subtree
-            int temp = (index * 2) + 1;
-            while(root[temp * 2] != nullptr){
-                    temp = temp * 2;
-            }
-            
-            Value *saver = &root[temp]->value;
-            
-            if(root[temp * 2 + 1] != nullptr){
-                shiftTree(temp, (temp * 2 + 1) - temp);
-            }
-            
-            root[index] = new Pair(index, *saver);
-            //root[temp] = nullptr;
-            this->count--;
-          
-            
-            
-            //root[index] = root[temp];
-            //root[temp] = nullptr;
-            
-            //if (root[temp * 2 + 1] != nullptr){
-            //    int newShift = temp * 2 + 1;
-            //    shiftTree(newShift, (newShift * 2 + 1) - newShift);
-            //}
-            //this->count--;
-            //
-    
-            //DEBUG
-            //cout << "\nCASE: TWO CHILDREN (DELETED)\n";
-            //cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
-            //cout << "^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^\n";
-            //printTree(1, cout);
-        }
-        
-        //Case: One Child
-        else{
-            //FIXME: Where to manage dynamic memory?
-            
-            //DEBUG
-            
-            //cout << "\n#/#/#/#/#/#/ FOUND: CASE ONE CHILD #/#/#/#/#/#/\n";
-            //cout << "KEY: " << key << endl;
-            //cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            //Left Subtree
-            if (root[index * 2] != nullptr && root[index * 2 + 1] == nullptr){
-                shiftTree(index, (index * 2) - index);
-            }
-            //Right Subtree
-            else if(root[index * 2] == nullptr && root[index * 2 + 1] != nullptr){
-                shiftTree(index, (index * 2 + 1) - index);
-            }
-            this->count--;
-            
-            //DEBUG
-            //printTree(1, cout);
-        
-        
-            */
-            
-        
-        
-        
-        /*
-        //DEBUG
-        cout << "\nINSIDE REMOVE FUNCTION\n";
-        cout << "KEY: " << key << endl;
-        
-        int index = 1;
-        //Finds the index value at which key is stored
-        while (root[index * 2] != nullptr && root[(index * 2) + 1] != nullptr && root[index]->key != key){
-            //DEBUG
-            //cout << "\n\nINDEX: " << index << endl;
-            //cout << "KEY: " << key;
-            
-            if(root[index]->key > key){
-                //DEBUG
-                //cout << "\nCURRENT ARRAY KEY: "<< root[index]->key << endl;
-                
-                index = index * 2;
-                
-                //DEBUG
-                //cout << "INDEX: " << index << endl << endl;
-            }
-            else if(root[index]->key < key){
-                //DEBUG
-                //cout << "\nCURRENT ARRAY KEY: "<< root[index]->key << endl;
-                
-                index = (index * 2) + 1;
-            }
-        }
-        
-        //DEBUG
-        cout << "\nAFTER CODE FOUND PROPER INDEX" << endl;
-        cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-        //ADD REMOVAL AND REASSIGNMENT CODE HERE
-        
-        //DEBUG
-        //cout << "\n\nFOUND NODE WITH REMOVE KEY\n";
-        //cout << "INDEX: " << index << endl;
-        //cout << "REMOVAL KEY: " << key << endl;
-        //cout << "NODE KEY: " << root[index]->key << endl;
-        
-        //Case: No Children
-        if (root[index * 2] == nullptr && root[(index * 2) + 1] == nullptr){
-            //DEBUG
-            cout << "~~~~~~~~~~FOUND: CASE NO CHILDREN~~~~~~~~~~\n";
-            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            //FIXME: delete the dynamic memory
-            //delete root[index];
-            
-            //DEBUG
-            //cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl << endl;
-            root[index] = nullptr;
-            
-            //DEBUG
-            //cout << "\nCASE: NO CHILDREN (DELETED)\n";
-            //cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-            
-        }
-        //Case: Two Children
-        else if(root[index * 2] != nullptr && root[(index * 2) + 1] != nullptr){
-            //FIXME: Dynamic memory delete?? (Don't believe its necessary)
-            
-            //DEBUG
-            cout << "\n^_^_^_^_^_FOUND: CASE TWO CHILDREN_^_^_^_^_^_\n";
-            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            //Find min value of right subtree
-            int temp = (index * 2) + 1;
-            while(root[temp * 2] != nullptr){
-                //if (root[temp * 2] != nullptr){
-                    temp = temp * 2;
-                //}
-            }
-            root[index] = root[temp];
-            root[temp] = nullptr;
-            
-            //DEBUG
-            //cout << "\nCASE: TWO CHILDREN (DELETED)\n";
-            //cout << "ROOT AT INDEX POST-DELETION: \n" << *(root[index]->value) << endl;
-            //cout << "^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^\n";
-        }
-        //Case: One Child
-        else{
-            //DEBUG
-            
-            cout << "\n#/#/#/#/#/#/ FOUND: CASE ONE CHILD #/#/#/#/#/#/\n";
-            cout << "KEY: " << key << endl;
-            cout << "ROOT AT INDEX PRE-DELETION: \n" << *(root[index]->value) << endl << endl;
-            
-            //Left Subtree
-            if (root[index * 2] != nullptr){
-                //DEBUG
-                cout << "\nLEFT SUBTREE CASE\n";
-                
-                //root[index] = nullptr;
-                shiftTree(index, (index * 2) - index, index);
-                ;
-            }
-            //Right Subtree
-            else{
-                //DEBUG
-                cout << "\nRIGHT SUBTREE CASE\n";
-                
-                //root[index] = nullptr;
-                shiftTree(index, (index * 2 + 1) - index, index);
-                ;
-            }
-             
-            */
-            
-            
-            /*
-            //Case: Left of root
-            if (root[index]->key < root[1]->key){
-                //Case: Left Subtree
-                if(root[index * 2] != nullptr){
-                    shiftTree(index);
-                    //FIXME: Add code
-                    ;
-                }
-                //Case: Right Subtree
-                else{
-                    shiftTree(index);
-                    //FIXME: add code
-                    ;
-                }
-                
-            }
-            //Case: Right of root
-            else{
-                //Case: Left Subtree
-                if(root[index * 2] != nullptr){
-                    //FIXME: Add code
-                    shiftTree(index);
-                    ;
-                }
-                //Case: Right Subtree
-                else{
-                    //FIXME: add code
-                    shiftTree(index);
-                    ;
-                }
-            }
-             */
-            //DEBUG
-            //cout << "\n#/#/#/#/#/#/#/#/#/#/#/#/#/#/#/#/#/#/\n";
-            //cout << "PRINTING TREE POST REMOVAL\n";
-            //printTree();
-        //}
-        
+        */
 	}
 
 	int getSize() {
